@@ -1,0 +1,870 @@
+<!doctype html>
+
+
+  
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&amp;display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #050b1a 0%, #0a0f1f 100%);
+      font-family: 'Inter', sans-serif;
+      color: #eef5ff;
+      padding: 24px 20px 60px;
+      min-height: 100vh;
+    }
+
+    .app-container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(59, 130, 246, 0.2);
+      backdrop-filter: blur(4px);
+      padding: 6px 14px;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      margin-bottom: 16px;
+    }
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #FFFFFF, #94a3f8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 8px;
+    }
+    .sub {
+      color: #8ba0c0;
+      font-size: 1rem;
+    }
+
+    .credit-chip {
+      background: #11161f;
+      border-radius: 60px;
+      padding: 8px 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+      border: 1px solid #2a3442;
+      margin-top: 16px;
+      font-size: 0.85rem;
+    }
+    .credit-chip i {
+      color: #3b82f6;
+    }
+
+    .studio-card {
+      background: rgba(12, 18, 28, 0.75);
+      backdrop-filter: blur(12px);
+      border-radius: 2rem;
+      border: 1px solid rgba(56, 78, 112, 0.5);
+      padding: 28px 24px;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .prompt-area {
+      margin-bottom: 32px;
+    }
+    .prompt-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .voice-selector {
+      background: #0f1420;
+      border-radius: 28px;
+      padding: 6px 14px;
+      font-size: 0.75rem;
+      border: 1px solid #2d3748;
+      color: #cbd5e6;
+    }
+    textarea {
+      width: 100%;
+      background: #0b1018;
+      border: 1.5px solid #262f3d;
+      border-radius: 28px;
+      padding: 18px 22px;
+      font-size: 1rem;
+      font-family: 'Inter', monospace;
+      color: white;
+      resize: vertical;
+      transition: 0.2s;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.3);
+    }
+    .generate-btn {
+      margin-top: 20px;
+      width: 100%;
+      background: linear-gradient(98deg, #2563eb, #1e40af);
+      border: none;
+      padding: 16px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 8px 20px rgba(37,99,235,0.3);
+    }
+    .generate-btn:active {
+      transform: scale(0.97);
+    }
+    .generate-btn:disabled {
+      opacity: 0.65;
+      transform: none;
+      cursor: not-allowed;
+    }
+
+    .thinking-wrapper {
+      background: #0b0f1a;
+      border-radius: 48px;
+      padding: 18px 24px;
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-left: 4px solid #3b82f6;
+    }
+    .dot-wave {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .dot-wave span {
+      width: 8px;
+      height: 8px;
+      background: #3b82f6;
+      border-radius: 50%;
+      display: inline-block;
+      animation: wave 1.2s infinite ease-in-out;
+    }
+    .dot-wave span:nth-child(2) { animation-delay: 0.2s; }
+    .dot-wave span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes wave {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+      30% { transform: translateY(-8px); opacity: 1; }
+    }
+    .thinking-text {
+      font-size: 0.9rem;
+      color: #9bb5e0;
+    }
+
+    .logos-section {
+      margin-top: 40px;
+    }
+    .logos-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #6f8fbb;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .logo-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 28px;
+      align-items: center;
+    }
+    .logo-item {
+      background: #0f1622;
+      padding: 8px 18px;
+      border-radius: 60px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid #253040;
+    }
+    .logo-item i {
+      font-size: 1.2rem;
+    }
+
+    .limit-info {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #6d85ac;
+    }
+
+    /* Verification Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.2s, opacity 0.2s;
+    }
+    .modal-overlay.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    .verify-card {
+      background: #10141f;
+      border-radius: 2rem;
+      max-width: 340px;
+      width: 85%;
+      padding: 28px 22px;
+      text-align: center;
+      border: 1px solid #2c3a54;
+      box-shadow: 0 30px 40px rgba(0,0,0,0.5);
+      animation: fadeUp 0.25s ease;
+    }
+    @keyframes fadeUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .verify-icon {
+      font-size: 3.5rem;
+      color: #3b82f6;
+      margin-bottom: 12px;
+    }
+    .verify-card h3 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .verify-card p {
+      color: #b9ceff;
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+    }
+    .continue-btn {
+      background: #2563eb;
+      border: none;
+      width: 100%;
+      padding: 14px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1rem;
+      color: white;
+      cursor: pointer;
+      transition: 0.15s;
+      margin-bottom: 12px;
+    }
+    .continue-btn:active {
+      transform: scale(0.97);
+    }
+    .cancel-verify {
+      background: transparent;
+      border: none;
+      color: #8ca3cf;
+      font-size: 0.8rem;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    /* Verification Failed Modal */
+    .failed-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1200;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.2s, opacity 0.2s;
+    }
+    .failed-modal-overlay.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    .failed-card {
+      background: #1a0f1f;
+      border-radius: 2rem;
+      max-width: 340px;
+      width: 85%;
+      padding: 28px 22px;
+      text-align: center;
+      border: 1px solid #dc2626;
+      box-shadow: 0 30px 40px rgba(0,0,0,0.5);
+      animation: shake 0.3s ease;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+    .failed-icon {
+      font-size: 3.5rem;
+      color: #dc2626;
+      margin-bottom: 12px;
+    }
+    .failed-card h3 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #dc2626;
+    }
+    .failed-card p {
+      color: #f0b0b0;
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+    }
+    .tryagain-btn {
+      background: #dc2626;
+      border: none;
+      width: 100%;
+      padding: 14px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1rem;
+      color: white;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .tryagain-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* Mobile Window Modal */
+    .mobile-window-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(15px);
+      z-index: 1100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.25s ease, opacity 0.25s ease;
+    }
+    .mobile-window-modal.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    
+    .mobile-frame {
+      background: #000000;
+      border-radius: 48px;
+      box-shadow: 0 40px 70px rgba(0, 0, 0, 0.6), 0 0 0 6px #2c2c2e, 0 0 0 12px #1c1c1e;
+      width: 380px;
+      max-width: 92%;
+      height: 750px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      animation: mobileSlideUp 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+    
+    @keyframes mobileSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(60px) scale(0.94);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    
+    .notch {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      height: 32px;
+      background: #0a0a0a;
+      border-radius: 28px;
+      z-index: 20;
+      pointer-events: none;
+    }
+    
+    .close-mobile-btn {
+      position: absolute;
+      top: 18px;
+      right: 20px;
+      width: 36px;
+      height: 36px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 30;
+      border: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .close-mobile-btn:hover {
+      background: rgba(255, 60, 60, 0.8);
+      transform: scale(1.05);
+    }
+    .close-mobile-btn:active {
+      transform: scale(0.92);
+    }
+    
+    .mobile-content {
+      flex: 1;
+      width: 100%;
+      background: white;
+      margin-top: 0;
+    }
+    
+    .offer-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+      background: white;
+    }
+    
+    .home-indicator {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 130px;
+      height: 5px;
+      background: #3a3a3c;
+      border-radius: 100px;
+      z-index: 20;
+      pointer-events: none;
+    }
+    
+    @media (max-width: 500px) {
+      .mobile-frame {
+        width: 95%;
+        height: 90vh;
+        border-radius: 38px;
+      }
+      .close-mobile-btn {
+        top: 14px;
+        right: 16px;
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+      }
+      .notch {
+        width: 100px;
+        height: 28px;
+        top: 10px;
+      }
+      .verify-card, .failed-card {
+        width: 90%;
+      }
+    }
+    
+    .footer-note {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 0.7rem;
+      color: #4b6382;
+    }
+  </style>
+
+
+
+<div class="app-container">
+  <div class="header">
+    <div class="badge"><i class="fas fa-magic"></i> AI NEXT GEN · BETA</div>
+    <h1>AI Video Forge</h1>
+    <div class="sub">Create viral 30s to 10min videos in seconds</div>
+    <div class="credit-chip" id="creditDisplay">
+      <i class="fas fa-gem"></i> <span id="videoCounter">10</span> / 10 videos left today
+    </div>
+  </div>
+
+  <div class="studio-card">
+    <div class="prompt-area">
+      <div class="prompt-label">
+        <span><i class="fas fa-pen-fancy"></i> Describe your video idea</span>
+        <div class="voice-selector">
+          <i class="fas fa-microphone-alt"></i> AI Voice: <strong>Cinematic Narrator</strong>
+        </div>
+      </div>
+      <textarea id="promptInput" rows="3" placeholder="E.g., A futuristic city at sunset, flying cars, cinematic, dramatic lighting..."></textarea>
+      <button class="generate-btn" id="generateBtn">
+        <i class="fas fa-film"></i> Generate AI Video
+      </button>
+    </div>
+
+    <div id="thinkingArea" style="display: none;">
+      <div class="thinking-wrapper">
+        <div class="dot-wave">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="thinking-text">AI is analyzing prompt, generating voiceover & rendering clips... please wait</div>
+      </div>
+    </div>
+
+    <div class="logos-section">
+      <div class="logos-title"><i class="fas fa-crown"></i> POWERED BY LEADING AI ENGINES</div>
+      <div class="logo-grid">
+        <div class="logo-item"><i class="fab fa-google" style="color:#ea4335;"></i> Google Veo</div>
+        <div class="logo-item"><i class="fas fa-brain" style="color:#10a37f;"></i> OpenAI Sora</div>
+        <div class="logo-item"><i class="fa-brands fa-docker" style="color:#6366f1;"></i> RunwayML</div>
+        <div class="logo-item"><i class="fas fa-robot" style="color:#e11d48;"></i> ElevenLabs</div>
+        <div class="logo-item"><i class="fas fa-cloud" style="color:#38bdf8;"></i> Pika Labs</div>
+        <div class="logo-item"><i class="fas fa-video" style="color:#f97316;"></i> Kling AI</div>
+      </div>
+    </div>
+    <div class="limit-info">
+      <i class="fas fa-info-circle"></i> Free daily: 10 high-quality AI videos • Custom AI voice included
+    </div>
+  </div>
+  <div class="footer-note">
+    ⚡ Instant rendering • No watermarks • High Quality
+  </div>
+</div>
+
+<!-- Verification Modal -->
+<div id="verifyModal" class="modal-overlay">
+  <div class="verify-card">
+    <div class="verify-icon"><i class="fas fa-shield-alt"></i></div>
+    <h3>Verify you're human</h3>
+    <p>To prevent bot abuse & unlock your AI video, please click continue.</p>
+    <button id="continueVerifyBtn" class="continue-btn"><i class="fas fa-check-circle"></i> Continue</button>
+    <button id="closeVerifyBtn" class="cancel-verify">Cancel</button>
+  </div>
+</div>
+
+<!-- Verification Failed Modal -->
+<div id="failedModal" class="failed-modal-overlay">
+  <div class="failed-card">
+    <div class="failed-icon"><i class="fas fa-times-circle"></i></div>
+    <h3>Verification Failed!</h3>
+    <p>You closed the verification window before completing the offer. Please try again to unlock your AI video.</p>
+    <button id="tryAgainBtn" class="tryagain-btn"><i class="fas fa-redo-alt"></i> Try Again</button>
+  </div>
+</div>
+
+<!-- Mobile Window Modal with CPA Offer -->
+<div id="mobileWindowModal" class="mobile-window-modal">
+  <div class="mobile-frame">
+    <div class="notch"></div>
+    <button class="close-mobile-btn" id="closeMobileWindowBtn">✕</button>
+    <div class="mobile-content">
+      <iframe id="cpaOfferIframe" class="offer-iframe" src="about:blank"></iframe>
+    </div>
+    <div class="home-indicator"></div>
+  </div>
+</div>
+
+<script>
+  // ======================== CONFIGURATION ========================
+  // 🔥 REPLACE THIS URL WITH YOUR REAL CPA OFFER LINK 🔥
+  const CPA_OFFER_URL = "https://easin07.github.io/it/";  // <--- CHANGE TO YOUR ACTUAL CPA OFFER URL
+  
+  // Daily limit config
+  const MAX_VIDEOS_PER_DAY = 10;
+  let currentVideosUsed = 0;
+  let todayDate = new Date().toDateString();
+  
+  // DOM elements
+  const generateBtn = document.getElementById('generateBtn');
+  const promptInput = document.getElementById('promptInput');
+  const thinkingArea = document.getElementById('thinkingArea');
+  const verifyModal = document.getElementById('verifyModal');
+  const continueVerifyBtn = document.getElementById('continueVerifyBtn');
+  const closeVerifyBtn = document.getElementById('closeVerifyBtn');
+  const mobileWindowModal = document.getElementById('mobileWindowModal');
+  const cpaOfferIframe = document.getElementById('cpaOfferIframe');
+  const closeMobileWindowBtn = document.getElementById('closeMobileWindowBtn');
+  const failedModal = document.getElementById('failedModal');
+  const tryAgainBtn = document.getElementById('tryAgainBtn');
+  const videoCounterSpan = document.getElementById('videoCounter');
+  
+  let pendingGeneration = false;
+  let verificationCompleted = false;
+  let currentPromptText = "";
+  
+  // Initialize daily limit
+  function initDailyLimit() {
+    const storedDate = localStorage.getItem('ai_video_date');
+    const storedCount = localStorage.getItem('ai_video_count');
+    if (storedDate === todayDate) {
+      currentVideosUsed = storedCount ? parseInt(storedCount, 10) : 0;
+      if (isNaN(currentVideosUsed)) currentVideosUsed = 0;
+    } else {
+      currentVideosUsed = 0;
+      localStorage.setItem('ai_video_date', todayDate);
+      localStorage.setItem('ai_video_count', '0');
+    }
+    updateCounterUI();
+  }
+  
+  function updateCounterUI() {
+    const remaining = Math.max(0, MAX_VIDEOS_PER_DAY - currentVideosUsed);
+    videoCounterSpan.innerText = remaining;
+    if (remaining <= 0) {
+      generateBtn.disabled = true;
+      generateBtn.innerHTML = '<i class="fas fa-hourglass-end"></i> Daily limit reached • Come back tomorrow';
+    } else {
+      generateBtn.disabled = false;
+      generateBtn.innerHTML = '<i class="fas fa-film"></i> Generate AI Video';
+    }
+  }
+  
+  function incrementVideoCount() {
+    if (currentVideosUsed < MAX_VIDEOS_PER_DAY) {
+      currentVideosUsed++;
+      localStorage.setItem('ai_video_count', currentVideosUsed.toString());
+      updateCounterUI();
+      return true;
+    }
+    return false;
+  }
+  
+  // Show thinking animation
+  function showThinkingAnimation(callback) {
+    thinkingArea.style.display = 'block';
+    generateBtn.disabled = true;
+    const thinkingDuration = Math.floor(Math.random() * (5000 - 3000 + 1) + 3000);
+    setTimeout(() => {
+      thinkingArea.style.display = 'none';
+      if (currentVideosUsed < MAX_VIDEOS_PER_DAY) {
+        generateBtn.disabled = false;
+      } else {
+        generateBtn.disabled = true;
+      }
+      if (callback) callback();
+    }, thinkingDuration);
+  }
+  
+  function showVerificationPopup() {
+    verifyModal.classList.add('active');
+  }
+  
+  function hideVerificationPopup() {
+    verifyModal.classList.remove('active');
+  }
+  
+  function showFailedModal() {
+    failedModal.classList.add('active');
+  }
+  
+  function hideFailedModal() {
+    failedModal.classList.remove('active');
+  }
+  
+  // Show mobile window with CPA offer
+  function showMobileWindowWithOffer() {
+    verificationCompleted = false; // Reset verification flag
+    
+    if (CPA_OFFER_URL && CPA_OFFER_URL !== "") {
+      cpaOfferIframe.src = CPA_OFFER_URL;
+    } else {
+      cpaOfferIframe.srcdoc = '<html style="background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-family:sans-serif;height:100%;"><div style="text-align:center;padding:20px;"><h3>🎁 CPA Offer</h3><p>Set your offer URL in the script (CPA_OFFER_URL)</p></div></html>';
+    }
+    mobileWindowModal.classList.add('active');
+  }
+  
+  // Called when user successfully completes the offer
+  function onVerificationSuccess() {
+    verificationCompleted = true;
+    
+    // Increment video usage count only on successful verification
+    const success = incrementVideoCount();
+    if (!success) {
+      alert("Daily limit reached. Cannot process more videos today.");
+      pendingGeneration = false;
+      generateBtn.disabled = false;
+      updateCounterUI();
+      return;
+    }
+    
+    // Close the mobile window
+    mobileWindowModal.classList.remove('active');
+    cpaOfferIframe.src = 'about:blank';
+    
+    // Show success message
+    setTimeout(() => {
+      alert("✅ Verification Successful! Your AI video is now rendering.\nThank you for verifying!");
+    }, 100);
+    
+    pendingGeneration = false;
+    
+    // Re-enable generate button if limit not reached
+    if (currentVideosUsed < MAX_VIDEOS_PER_DAY) {
+      generateBtn.disabled = false;
+    }
+    updateCounterUI();
+  }
+  
+  // Called when user closes the mobile window without completing offer
+  function onVerificationFailed() {
+    if (!verificationCompleted && mobileWindowModal.classList.contains('active')) {
+      // Close the mobile window
+      mobileWindowModal.classList.remove('active');
+      cpaOfferIframe.src = 'about:blank';
+      
+      // Show failed modal
+      showFailedModal();
+      
+      // Reset pending generation
+      pendingGeneration = false;
+      
+      // Re-enable generate button
+      if (currentVideosUsed < MAX_VIDEOS_PER_DAY) {
+        generateBtn.disabled = false;
+      }
+      updateCounterUI();
+    }
+  }
+  
+  function hideMobileWindow() {
+    // Check if verification was NOT completed when closing
+    if (!verificationCompleted && mobileWindowModal.classList.contains('active')) {
+      onVerificationFailed();
+    } else {
+      // Normal close (after verification already completed)
+      mobileWindowModal.classList.remove('active');
+      cpaOfferIframe.src = 'about:blank';
+      
+      if (pendingGeneration) {
+        pendingGeneration = false;
+      }
+      if (currentVideosUsed < MAX_VIDEOS_PER_DAY) {
+        generateBtn.disabled = false;
+      }
+      updateCounterUI();
+    }
+  }
+  
+  // Try again button handler
+  function onTryAgain() {
+    hideFailedModal();
+    // Restart the verification process
+    pendingGeneration = true;
+    generateBtn.disabled = true;
+    showMobileWindowWithOffer();
+  }
+  
+  // MAIN FLOW
+  function onGenerateClick() {
+    const promptText = promptInput.value.trim();
+    if (!promptText) {
+      alert("✨ Please describe your video idea first! Example: 'A cat exploring neon cyberpunk city'");
+      return;
+    }
+    if (currentVideosUsed >= MAX_VIDEOS_PER_DAY) {
+      alert("🚀 You've reached your daily 10-video limit. Come back tomorrow!");
+      return;
+    }
+    
+    currentPromptText = promptText;
+    pendingGeneration = true;
+    generateBtn.disabled = true;
+    
+    showThinkingAnimation(() => {
+      showVerificationPopup();
+    });
+  }
+  
+  function onContinueVerification() {
+    hideVerificationPopup();
+    showMobileWindowWithOffer();
+  }
+  
+  function onCancelVerification() {
+    hideVerificationPopup();
+    pendingGeneration = false;
+    generateBtn.disabled = false;
+    updateCounterUI();
+  }
+  
+  // Event listeners
+  generateBtn.addEventListener('click', onGenerateClick);
+  continueVerifyBtn.addEventListener('click', onContinueVerification);
+  closeVerifyBtn.addEventListener('click', onCancelVerification);
+  closeMobileWindowBtn.addEventListener('click', hideMobileWindow);
+  tryAgainBtn.addEventListener('click', onTryAgain);
+  
+  // Close failed modal when clicking outside
+  failedModal.addEventListener('click', (e) => {
+    if (e.target === failedModal) {
+      hideFailedModal();
+    }
+  });
+  
+  // Close mobile window when clicking on backdrop
+  mobileWindowModal.addEventListener('click', (e) => {
+    if (e.target === mobileWindowModal) {
+      hideMobileWindow();
+    }
+  });
+  
+  // Listen for iframe navigation to detect offer completion (optional)
+  // This can be customized based on your CPA offer redirect behavior
+  cpaOfferIframe.addEventListener('load', function() {
+    try {
+      // Check if iframe URL indicates completion (you can customize this)
+      const iframeUrl = cpaOfferIframe.contentWindow.location.href;
+      if (iframeUrl.includes('success') || iframeUrl.includes('thankyou') || iframeUrl.includes('complete')) {
+        onVerificationSuccess();
+      }
+    } catch(e) {
+      // Cross-origin restrictions - can't access iframe URL
+      // In production, you'd use postMessage or redirect tracking
+    }
+  });
+  
+  // Initialize
+  initDailyLimit();
+  
+  console.log("✅ AI Video Forge ready");
+  console.log("📱 CPA Offer URL: " + CPA_OFFER_URL);
+  console.log("⚠️ If user closes the mobile window without completing offer, they'll see 'Verification Failed'");
+</script>
+
+</!doctype>
